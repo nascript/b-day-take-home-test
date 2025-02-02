@@ -41,4 +41,6 @@ cron.schedule("* * * * *", async () => {
   } catch (error) {
     console.error("❌ Error in scheduler:", error);
   }
+
+  
 });

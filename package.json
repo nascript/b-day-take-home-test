@@ -7,9 +7,9 @@
     "start": "nodemon src/index.ts",
     "build": "tsc",
     "dev": "ts-node-dev src/index.ts",
-    "test:file": "NODE_ENV=test:file jest --coverage --config jest.unit.config.ts",
-    "test:unit": "NODE_ENV=test:unit jest --coverage --config jest.unit.config.ts",
-    "test:integration": "NODE_ENV=test:integration jest --config jest.integration.config.ts"
+    "test:file": "NODE_ENV=test:file jest --coverage --config jest.unit.config.js",
+    "test:unit": "NODE_ENV=test:unit jest --coverage --config jest.unit.config.js",
+    "test:integration": "NODE_ENV=test:integration jest --config jest.integration.config.js"
   },
   "keywords": [],
   "author": "https://github.com/nascript",
@@ -32,6 +32,7 @@
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/moment-timezone": "^0.5.30",
+    "@types/node": "^22.13.0",
     "@types/node-cron": "^3.0.11",
     "@types/supertest": "^6.0.2",
     "@types/swagger-ui-express": "^4.1.7",

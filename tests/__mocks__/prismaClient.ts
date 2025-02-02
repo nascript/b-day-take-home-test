@@ -11,6 +11,9 @@ const mockPrisma = {
     count: jest.fn(),
     deleteMany: jest.fn().mockResolvedValue({ count: 0 }),
   },
+  messageLog: {
+    create: jest.fn(),
+  },
 };
 
 export default mockPrisma;

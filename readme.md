@@ -1,5 +1,25 @@
 # 📚 Birthday API Documentation
 
+
+## ✅ Assessment Checklist
+
+| **Requirement**                                             | **Status** | **Notes**                                  |
+| :---------------------------------------------------------- | :--------- | :----------------------------------------- |
+| API for Create & Delete Users                               | ✅         | Implemented with validation                |
+| User fields: firstName, lastName, birthday, timezone, email | ✅         | All fields covered                         |
+| Send birthday message at 9 AM local time                    | ✅         | Implemented with timezone support          |
+| Integration with external email service                     | ✅         | Handled with retry & error management      |
+| Retry mechanism for failed messages                         | ✅         | Exponential backoff with max 3 retries     |
+| Handle service downtime & resend unsent messages            | ✅         | Scheduler checks for failed messages       |
+| Prevent duplicate messages                                  | ✅         | Using `messageStatus` & `lastBirthdaySent` |
+| PUT /user for updating user details                         | ✅         | Update implemented with validation         |
+| Unit & Integration Tests                                    | ✅         | Jest with coverage reports                 |
+| Scalable & maintainable architecture                        | ✅         | Clean Architecture applied                 |
+| Birthday message recovery after downtime                    | ✅         | Pending messages retried after restart     |
+| Exponential backoff with proper delay handling              | ✅         | Implemented with incremental delays        |
+
+---
+
 ## 📦 Project Structure
 
 ```
@@ -7,11 +27,13 @@
 │   ├── application
 │   │   └── services
 │   │       └── UserService.ts
+|   |       └── BirthdayService.ts
 │   ├── domain
 │   │   └── models
 │   │       └── User.ts
 │   ├── infrastructure
 │   │   ├── prismaClient.ts
+│   │   ├── scheduler.ts
 │   │   └── repositories
 │   │       └── UserRepository.ts
 │   ├── presentation
@@ -283,7 +305,11 @@ model MessageLog {
 ## ✅ Testing
 
 - **Unit Tests:** Jest + Supertest
+
+![alt text](<Screenshot from 2025-02-02 22-50-17.png>)
+
 - **Integration Tests:** Prisma Test Database + Jest
+![alt text](<Screenshot from 2025-02-02 22-51-31.png>)
 
 Run Unit Tests:
 
@@ -404,24 +430,6 @@ model MessageLog {
 
 ---
 
-## ✅ Assessment Checklist
-
-| **Requirement**                                             | **Status** | **Notes**                                  |
-| :---------------------------------------------------------- | :--------- | :----------------------------------------- |
-| API for Create & Delete Users                               | ✅         | Implemented with validation                |
-| User fields: firstName, lastName, birthday, timezone, email | ✅         | All fields covered                         |
-| Send birthday message at 9 AM local time                    | ✅         | Implemented with timezone support          |
-| Integration with external email service                     | ✅         | Handled with retry & error management      |
-| Retry mechanism for failed messages                         | ✅         | Exponential backoff with max 3 retries     |
-| Handle service downtime & resend unsent messages            | ✅         | Scheduler checks for failed messages       |
-| Prevent duplicate messages                                  | ✅         | Using `messageStatus` & `lastBirthdaySent` |
-| PUT /user for updating user details                         | ✅         | Update implemented with validation         |
-| Unit & Integration Tests                                    | ✅         | Jest with coverage reports                 |
-| Scalable & maintainable architecture                        | ✅         | Clean Architecture applied                 |
-| Birthday message recovery after downtime                    | ✅         | Pending messages retried after restart     |
-| Exponential backoff with proper delay handling              | ✅         | Implemented with incremental delays        |
-
----
 
 ## 📋 Final Notes
 

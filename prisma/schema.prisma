@@ -7,24 +7,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum MessageStatus {
+  pending
+  sent
+  failed
+}
+
 model User {
-  id        Int      @id @default(autoincrement())
-  firstName String
-  lastName  String
-  birthday  DateTime
-  timezone  String
-  email     String
-  messages  MessageLog[]
-  createdAt DateTime @default(now()) 
-  updatedAt DateTime @updatedAt       
+  id               Int            @id @default(autoincrement())
+  firstName        String
+  lastName         String
+  birthday         DateTime
+  timezone         String
+  email            String         @unique
+  lastBirthdaySent DateTime?
+  messageStatus    MessageStatus  @default(pending) 
+  retryCount       Int            @default(0)       
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  
+  messageLogs      MessageLog[]   @relation("UserMessages")
+
+  @@index([messageStatus])        
+  @@index([retryCount])
 }
 
 model MessageLog {
   id            Int      @id @default(autoincrement())
   userId        Int
-  status        String
+  status        MessageStatus    
   scheduledTime DateTime
   sentTime      DateTime?
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], name: "UserMessages")
+
+  @@index([status, scheduledTime])  
 }

@@ -3,7 +3,8 @@ import userRoutes from "./presentation/routes/userRoute";
 import { errorHandler } from "./presentation/middlewares/errorHandler";
 import dotenv from "dotenv";
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "./docs/swagger"
+import swaggerDocument from "./docs/swagger";
+import "./infrastructure/scheduler";
 
 const app = express();
 app.use(express.json());

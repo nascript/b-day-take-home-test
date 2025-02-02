@@ -1,21 +1,19 @@
-// tests/units/services/birthdayService.test.ts
+
 import axios from "axios";
 import mockPrisma from "../../__mocks__/prismaClient";
 import { sendBirthdayMessage } from "../../../src/application/services/BirthdayService";
+import * as BirthdayService from "../../../src/application/services/BirthdayService";
 
-// Mock dependencies
-jest.mock("axios");
-jest.mock("../../../src/infrastructure/prismaClient", () => ({
-  __esModule: true,
-  default: mockPrisma,
-}));
+jest
+  .spyOn(BirthdayService, "delay")
+  .mockImplementation(() => Promise.resolve());
 
 describe("BirthdayService - sendBirthdayMessage", () => {
   const mockUser = {
     id: 1,
     firstName: "John",
     lastName: "Doe",
-    email: "john.doe@example.com",
+    email: "john.doe90@example.com",
     retryCount: 0,
   };
 
@@ -61,8 +59,8 @@ describe("BirthdayService - sendBirthdayMessage", () => {
 
     await sendBirthdayMessage(userWithMaxRetry);
 
-    expect(axios.post).not.toHaveBeenCalled(); // Should not send message
-    expect(mockPrisma.user.update).not.toHaveBeenCalled(); // Should not update
+    expect(axios.post).not.toHaveBeenCalled();
+    expect(mockPrisma.user.update).not.toHaveBeenCalled(); 
   });
 
   it("should stop retrying after max attempts", async () => {
@@ -86,17 +84,72 @@ describe("BirthdayService - sendBirthdayMessage", () => {
     expect(mockPrisma.user.update).not.toHaveBeenCalled();
   });
 
-  it("should handle failed request", async () => {
-    (axios.post as jest.Mock).mockRejectedValue({
-      response: { data: "Internal server error" },
+  it("should retry and succeed after initial failure", async () => {
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    let callCount = 0;
+    (axios.post as jest.Mock).mockImplementation(() => {
+      callCount++;
+      if (callCount === 1) {
+        return Promise.reject(new Error("Request failed with status code 500"));
+      }
+      return Promise.resolve({
+        data: { status: "sent", sentTime: "2025-02-01T15:50:09.885Z" },
+      });
+    });
+    
+    (mockPrisma.user.findUnique as jest.Mock).mockImplementation(() => {
+      return Promise.resolve({ ...mockUser, retryCount: callCount - 1 });
+    });
+    (mockPrisma.user.update as jest.Mock).mockResolvedValue({});
+    (mockPrisma.messageLog.create as jest.Mock).mockResolvedValue({});
+
+    await BirthdayService.sendBirthdayMessage(mockUser);
+
+    expect(axios.post).toHaveBeenCalledTimes(2);
+    expect(mockPrisma.user.update).toHaveBeenCalledWith({
+      where: { id: mockUser.id },
+      data: expect.objectContaining({
+        messageStatus: "sent",
+        retryCount: { increment: 1 },
+      }),
     });
 
-    (mockPrisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
-    (mockPrisma.user.update as jest.Mock).mockResolvedValue({});
+    consoleErrorSpy.mockRestore();
+  }, 60000);
 
-    await sendBirthdayMessage(mockUser);
+ it("should create message log on failure attempt", async () => {
 
-    expect(axios.post).toHaveBeenCalled();
-    expect(mockPrisma.user.update).not.toHaveBeenCalled();
-  });
+   jest
+     .spyOn(BirthdayService, "delay")
+     .mockImplementation(() => Promise.resolve());
+
+   const error = new Error("Request failed with status code 500");
+   (axios.post as jest.Mock).mockRejectedValue(error);
+
+   let currentRetry = 0;
+
+   (mockPrisma.user.findUnique as jest.Mock).mockImplementation(() => {
+     return Promise.resolve({ ...mockUser, retryCount: currentRetry });
+   });
+   (mockPrisma.user.update as jest.Mock).mockImplementation(() => {
+     currentRetry++;
+     return Promise.resolve({});
+   });
+   (mockPrisma.messageLog.create as jest.Mock).mockResolvedValue({});
+
+   await sendBirthdayMessage(mockUser);
+
+
+   expect(currentRetry).toBeGreaterThan(0);
+   expect(mockPrisma.messageLog.create).toHaveBeenCalledWith({
+     data: {
+       userId: mockUser.id,
+       status: "failed",
+       scheduledTime: expect.any(Date),
+     },
+   });
+ }, 60000);
 });

@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">61.11% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/18</span>
+                <span class='fraction'>11/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.36% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/11</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">61.11% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/18</span>
+                <span class='fraction'>11/18</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -109,36 +109,36 @@
 <a name='L44'></a><a href='#L44'>44</a>
 <a name='L45'></a><a href='#L45'>45</a>
 <a name='L46'></a><a href='#L46'>46</a>
-<a name='L47'></a><a href='#L47'>47</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L47'></a><a href='#L47'>47</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -150,7 +150,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -176,27 +176,27 @@ cron.schedule("* * * * *", async () =&gt; {
     });
 &nbsp;
     for (const user of users) {
-      const userLocalTime = moment.tz(nowUTC, user.timezone);
-      const birthday = moment.tz(user.birthday, user.timezone);
+      const userLocalTime = <span class="cstat-no" title="statement not covered" >moment.tz(nowUTC, user.timezone);</span>
+      const birthday = <span class="cstat-no" title="statement not covered" >moment.tz(user.birthday, user.timezone);</span>
 &nbsp;
       const isBirthdayToday =
-        userLocalTime.date() === birthday.date() &amp;&amp;
-<span class="branch-1 cbranch-no" title="branch not covered" >        userLocalTime.month() === birthday.month();</span>
-      const is9AM = userLocalTime.hour() === 9 &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >userLocalTime.minute() === 0;</span>
+<span class="cstat-no" title="statement not covered" >        userLocalTime.date() === birthday.date() &amp;&amp;</span>
+        userLocalTime.month() === birthday.month();
+      const is9AM = <span class="cstat-no" title="statement not covered" >userLocalTime.hour() === 9 &amp;&amp; userLocalTime.minute() === 0;</span>
 &nbsp;
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
         (isBirthdayToday &amp;&amp;
-<span class="branch-1 cbranch-no" title="branch not covered" >          is9AM </span>&amp;&amp;
-<span class="branch-2 cbranch-no" title="branch not covered" >          user.messageStatus === "pending" </span>&amp;&amp;
-<span class="branch-3 cbranch-no" title="branch not covered" >          !user.lastBirthdaySent)</span> ||
-        (user.messageStatus === "failed" &amp;&amp; <span class="branch-5 cbranch-no" title="branch not covered" >user.retryCount &lt; 3)</span>
+          is9AM &amp;&amp;
+          user.messageStatus === "pending" &amp;&amp;
+          !user.lastBirthdaySent) ||
+        (user.messageStatus === "failed" &amp;&amp; user.retryCount &lt; 3)
       ) {
 <span class="cstat-no" title="statement not covered" >        console.log(`🚀 Processing user: ${user.email}`);</span>
 <span class="cstat-no" title="statement not covered" >        await sendBirthdayMessage(user);</span>
       }
     }
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error("❌ Error in scheduler:", error);</span>
+    console.error("❌ Error in scheduler:", error);
   }
 &nbsp;
   
@@ -208,7 +208,7 @@ cron.schedule("* * * * *", async () =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-02T15:25:48.437Z
+                at 2025-02-02T17:23:40.999Z
             </div>
         <script src="../prettify.js"></script>
         <script>

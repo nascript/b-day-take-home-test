@@ -1,10 +1,12 @@
 import dotenv from "dotenv";
 import mockPrisma from "../__mocks__/prismaClient";
-// ✅ Load environment variables khusus untuk testing
+//
 dotenv.config({ path: ".env.test" });
 
-// ✅ Mock Prisma, Axios, dan Node-Cron untuk SEMUA unit test
-if (process.env.NODE_ENV === "test:unit") {
+if (
+  process.env.NODE_ENV === "test:unit" ||
+  process.env.NODE_ENV === "test:file"
+) {
   jest.mock("../../src/infrastructure/prismaClient", () => ({
     __esModule: true,
     default: mockPrisma,
@@ -13,7 +15,7 @@ if (process.env.NODE_ENV === "test:unit") {
   jest.mock("axios");
 
   jest.mock("node-cron", () => ({
-    schedule: jest.fn(), // ✅ Mock node-cron agar tidak menjalankan cron asli
+    schedule: jest.fn(),
   }));
 
   beforeAll(() => {

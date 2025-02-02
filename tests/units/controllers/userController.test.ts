@@ -91,7 +91,6 @@ describe("UserController", () => {
     const userId = 1;
     const invalidData = {
       firstName: "Jane Updated",
-      // Missing required fields
     };
 
     const response = await request(app)

@@ -2,7 +2,7 @@ import axios from "axios";
 import prisma from "../../infrastructure/prismaClient";
 
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const sendBirthdayMessage = async (user: any) => {
   const maxRetries = 3;

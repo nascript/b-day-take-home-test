@@ -2,6 +2,7 @@
 import { User as PrismaUser, Prisma } from "@prisma/client";
 import { User } from "../../domain/models/User";
 import prisma from "../prismaClient";
+import { DuplicateEmailError } from "../../presentation/middlewares/validateUser"
 
 interface GetUsersOptions {
   page: number;
@@ -20,6 +21,11 @@ export class UserRepository {
 
       return result;
     } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2002" && Array.isArray(error.meta?.target) && error.meta.target.includes("email")) {
+          throw new DuplicateEmailError(user.email);
+        }
+      }
       console.error("Service create user error:", error);
       throw error;
     }
